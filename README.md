@@ -125,7 +125,7 @@ gSheets({
 ```html
 <template id="article-cta">
   <div class="consent-card">
-    <p>Beim Laden der Tabelle werden Daten an Google übertragen.</p>
+    <p>Beim Laden wird eine Verbindung zu Google hergestellt.</p>
     <button data-gsheets-optin>Inhalt laden</button>
   </div>
 </template>
