@@ -1,4 +1,4 @@
-/*! gSheets — v0.1.2 - 2026-06-15
+/*! gSheets — v0.1.3 - 2026-11-03
  * https://copperdesign.github.io/
  *
  * Copyright (c) 2026 Christian Fillies;
