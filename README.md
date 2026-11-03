@@ -59,7 +59,7 @@ The template is plain HTML inside a `<template>` element. Four attributes contro
 | `data-column-name="link" data-attr="href"` | `element.setAttribute('href', row.link)` |
 | `data-column-name="…" data-remove-empty` | Remove the element when the value is empty (default: add `hidden`) |
 
-The conventions match [`@copperdesign/gcal`](https://github.com/copperdesign/gCal) one-for-one — `data-column-name` instead of `data-slot`, otherwise identical.
+The conventions match [`@copperdesign/gcal`](https://github.com/copperdesign/gcal) one-for-one — `data-column-name` instead of `data-slot`, otherwise identical.
 
 ## API
 
@@ -233,7 +233,7 @@ Modern evergreens. Requires native `fetch`, `<template>`, `URLSearchParams`. No 
 
 ## Provenance
 
-This module is the modern successor to a 2018 jQuery plugin (`jquery.gsheet.js`) and a later jQuery-free rewrite that inlined a consent gate. This release drops jQuery, makes the binding rules consistent with [`@copperdesign/gcal`](https://github.com/copperdesign/gCal), defaults to safe `textContent` rendering, and makes consent gating a contract rather than a built-in.
+This module is the modern successor to a 2018 jQuery plugin (`jquery.gsheet.js`) and a later jQuery-free rewrite that inlined a consent gate. This release drops jQuery, makes the binding rules consistent with [`@copperdesign/gcal`](https://github.com/copperdesign/gcal), defaults to safe `textContent` rendering, and makes consent gating a contract rather than a built-in.
 
 ## License
 

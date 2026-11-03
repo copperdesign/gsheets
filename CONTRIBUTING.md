@@ -33,7 +33,7 @@ Probably no — open an issue first to discuss:
 - Framework-specific wrappers (React, Vue, etc.) — these belong in
   separate packages that depend on this one
 - Diverging the binding model from
-  [`@copperdesign/gcal`](https://github.com/copperdesign/gCal) —
+  [`@copperdesign/gcal`](https://github.com/copperdesign/gcal) —
   consistency is a feature; new attributes should land in both libs or
   neither
 
@@ -50,7 +50,7 @@ Hard no:
 ## Getting set up
 
 ```bash
-git clone https://github.com/copperdesign/gSheets.git
+git clone https://github.com/copperdesign/gsheets.git
 cd gSheets
 ```
 

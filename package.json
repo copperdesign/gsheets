@@ -26,11 +26,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/copperdesign/gSheets.git"
+    "url": "git+https://github.com/copperdesign/gsheets.git"
   },
-  "homepage": "https://github.com/copperdesign/gSheets#readme",
+  "homepage": "https://github.com/copperdesign/gsheets#readme",
   "bugs": {
-    "url": "https://github.com/copperdesign/gSheets/issues"
+    "url": "https://github.com/copperdesign/gsheets/issues"
   },
   "publishConfig": {
     "access": "public",

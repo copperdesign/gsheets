@@ -15,8 +15,13 @@
 #
 # Authentication: npm Trusted Publishing (OIDC), no stored token.
 # - npmjs.com → the package → Settings → Trusted Publisher: GitHub Actions,
-#   copperdesign/gSheets, workflow `release.yml`, no environment,
+#   copperdesign/gsheets, workflow `release.yml`, no environment,
 #   "Allow npm publish" ticked. Set up 2026-11-03.
+# - The repo name must stay all lowercase. npm lowercases the repository
+#   when the Trusted Publisher is saved, but GitHub's token carries the
+#   repo's real casing, so a mixed-case name never matches and the publish
+#   fails with a bare 404. That is why the repo was renamed from its old
+#   mixed-case name on 2026-11-03.
 # - The job mints an OIDC token (`id-token: write`); npm exchanges it for a
 #   short-lived publish credential. Nothing to rotate, nothing to leak — the
 #   NPM_TOKEN secret this replaced stopped being accepted in 2026.
