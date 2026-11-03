@@ -13,23 +13,21 @@
 # - It separates "tag exists" (cheap, reversible) from "shipped to npm"
 #   (public, irreversible).
 #
-# Setup (one time):
-# 1. Log in to npmjs.com as `copperdesign` (the personal account that
-#    owns the @copperdesign scope — NOT the Manolab org account).
-# 2. Profile → Access Tokens → Generate New Token → "Automation"
-#    (Granular tokens also work; give it publish access to
-#    @copperdesign/gsheets and nothing else).
-# 3. In this repo: Settings → Secrets and variables → Actions →
-#    New repository secret → name `NPM_TOKEN`, value = the token above.
-# 4. First publish of a scoped package on a free npm plan requires
-#    `--access public`. That's already in package.json under
-#    `publishConfig`, so no extra flag needed.
+# Authentication: npm Trusted Publishing (OIDC), no stored token.
+# - npmjs.com → the package → Settings → Trusted Publisher: GitHub Actions,
+#   copperdesign/gSheets, workflow `release.yml`, no environment,
+#   "Allow npm publish" ticked. Set up 2026-11-03.
+# - The job mints an OIDC token (`id-token: write`); npm exchanges it for a
+#   short-lived publish credential. Nothing to rotate, nothing to leak — the
+#   NPM_TOKEN secret this replaced stopped being accepted in 2026.
+# - Needs npm >= 11.5.1, hence Node 24 below (Node 22 still ships npm 10).
+# - First publish of a scoped package on a free npm plan requires
+#   `--access public`; that's in package.json under `publishConfig`.
 #
 # Provenance:
-# - `id-token: write` + `--provenance` produces a signed attestation
-#   that ties the published tarball to this specific workflow run on
-#   this commit. Visible on the npm package page; nothing for consumers
-#   to configure. Requires the repo to be public.
+# - Automatic with Trusted Publishing from a public repo: npm signs an
+#   attestation tying the tarball to this workflow run on this commit.
+#   Visible on the npm package page; nothing for consumers to configure.
 
 name: Release
 
@@ -42,7 +40,7 @@ jobs:
     name: publish to npm
     runs-on: ubuntu-latest
 
-    # Required for npm provenance — the workflow mints an OIDC token
+    # Required for trusted publishing and provenance — the workflow mints an OIDC token
     # that npm verifies against the GitHub Actions issuer.
     permissions:
       contents: read
@@ -53,7 +51,7 @@ jobs:
 
       - uses: actions/setup-node@v6
         with:
-          node-version: '22'
+          node-version: '24'
           registry-url: 'https://registry.npmjs.org'
 
       # Smoke checks before publishing. The module is one file with no
@@ -133,7 +131,13 @@ jobs:
             exit 1
           fi
 
+      # Trusted Publishing silently needs a recent npm; an older one falls
+      # back to token auth and fails with an unhelpful 404. Say it plainly.
+      - name: npm supports trusted publishing
+        run: |
+          npm_version=$(npm --version)
+          node -e "const [a,b,c]=process.argv[1].split('.').map(Number); process.exit(a>11||(a===11&&(b>5||(b===5&&c>=1)))?0:1)" "$npm_version" \
+            || { echo "npm $npm_version is older than 11.5.1, which trusted publishing needs" >&2; exit 1; }
+
       - name: publish
         run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

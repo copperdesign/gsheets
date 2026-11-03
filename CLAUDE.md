@@ -57,4 +57,4 @@ git push --follow-tags
 gh release create vX.Y.Z --generate-notes
 ```
 
-If a `release.yml` workflow is set up, it publishes to npm with provenance from the tag. Requires `NPM_TOKEN` repo secret.
+If a `release.yml` workflow is set up, it publishes to npm with provenance from the tag, authenticated by npm Trusted Publishing (OIDC, configured on npmjs.com for `release.yml`). No token secret; it needs Node 24 for npm >= 11.5.1.
